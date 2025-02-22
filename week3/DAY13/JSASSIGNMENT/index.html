@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Listings</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+    <header>
+    <div class="title">Lilys Books</div>
+    <div class="icon">
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M4 4a1 1 0 0 1 1-1h1.5a1 1 0 0 1 .979.796L7.939 6H19a1 1 0 0 1 .979 1.204l-1.25 6a1 1 0 0 1-.979.796H9.605l.208 1H17a3 3 0 1 1-2.83 2h-2.34a3 3 0 1 1-4.009-1.76L5.686 5H5a1 1 0 0 1-1-1Z" clip-rule="evenodd"/>
+          </svg>
+          <span>0</span>
+          
+    </div>
+</header>
+</div>
+
+
+
+<main>
+    <section id="Books-section">
+        <h3>Available books</h3>
+
+        <label for="genre-select">Select Genre</label>
+        <select name="" id="genre-select" onchange="handleGenreChange()">
+            <option value=""> ALL GENRES</option>
+            <option value="Fantasy">Fantasy</option>
+
+            <option value="Dystopian">Dystopian</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Romance">Romance</option>
+            <option value="Fiction">Fiction</option>
+        </select>
+
+        <label for="year-select"> SORT VIA YEAR</label>
+        <select name="" id="year-select" onchange="handleYearChange()">
+            <option value="desc">LATEST BOOKS</option>
+            <option value="asc">OLDER BOOKS</option>
+
+        </select>
+
+
+        <label for="page-select"> SORT VIA PAGES</label>
+        <select name="" id="page-select" onchange="handlePageChange(this.value)">
+            <option value="desc">MORE</option>
+            <option value="asc">FEWER</option>
+
+        </select>
+
+        <div class="cartTab">
+            <h1>Shopping Cart</h1>
+            <div class="listCart">
+
+            </div>
+            <div class="btn">
+                <button class="close">Close</button>
+               
+
+
+            </div>
+
+
+        </div>
+
+
+    
+
+
+
+        <div id="book-list" class="book-list">
+
+        </div>
+        
+    </section>
+</main>
+<script src="script.js"></script>
+    
+</body>
+</html>
