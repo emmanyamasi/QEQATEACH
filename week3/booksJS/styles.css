@@ -1,0 +1,66 @@
+/* General Page Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    text-align: center;
+}
+
+/* Header */
+header {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    font-size: 24px;
+}
+
+/* Books Container */
+.books-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Individual Book */
+.book {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 250px;
+    text-align: left;
+}
+
+/* Book Image */
+.book-image {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* Book Description */
+.description {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Price */
+.price {
+    font-weight: bold;
+    color: #e44d26;
+}
+
+
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .books-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}

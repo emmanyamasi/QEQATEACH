@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookstore</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Online Bookstore</h1>
+    </header>
+    
+    <main>
+
+        <section id="Books-section">
+            <h3>Available books</h3>
+    
+            <label for="genre-select">Select Genre</label>
+            <select name="" id="genre-select">
+                <option value=""> ALL GENRES</option>
+                <option value="Fantasy">Fantasy</option>
+    
+                <option value="Dystopian">Dystopian</option>
+                <option value="Adventure">Adventure</option>
+                <option value="Romance">Romance</option>
+                <option value="Fiction">Fiction</option>
+            </select>
+    
+            <label for="year-select"> SORT VIA YEAR</label>
+            <select name="" id="year-select" onchange="handleYearChange()">
+                <option value="desc">LATEST BOOKS</option>
+                <option value="asc">OLDER BOOKS</option>
+    
+            </select>
+    
+    
+            <label for="page-select"> SORT VIA PAGES</label>
+            <select name="" id="page-select" onchange="handlePageChange(this.value)">
+                <option value="desc">MORE</option>
+                <option value="asc">FEWER</option>
+    
+            </select>
+    
+            
+    
+    
+            
+            
+      
+        <div id="books-container" class="books-container">
+            <!-- Books will be dynamically added here -->
+        </div>
+    </section>
+    </main>
+
+    <script src="script.js">
+
+       
+    
+
+    </script>
+</body>
+</html>

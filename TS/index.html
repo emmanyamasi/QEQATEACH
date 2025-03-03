@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple E-commerce</title>
+    <link rel="stylesheet" href="styles.css">
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+
+</head>
+<body>
+   
+    <nav class="navbar">
+    <div class="nav-title">Books</div>
+    <div class="cart-container">
+        <span id="cart-count">0</span>
+        <i class="fas fa-shopping-cart cart-icon"></i>
+    </div>
+</nav>
+
+
+    <div class="cart-dropdown" id="cart-dropdown">
+        <h2>Your Cart</h2>
+    <div id="cart-items">
+
+    </div>
+    <div class="cart-summary">
+        <h3>Total: <span id="cart-total">Ksh 0</span></h3>
+        <button id="clear-cart">ClearCart</button>
+    </div>
+    </div>
+   
+
+    <div class="select-container">
+        <label for="genre-select">Select Genre</label>
+        <select id="genre-select">
+            <option value="">ALL GENRES</option>
+            <option value="Fantasy">Fantasy</option>
+            <option value="Dystopian">Dystopian</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Romance">Romance</option>
+            <option value="Fiction">Fiction</option>
+        </select>
+    
+        <label for="year-select">SORT VIA YEAR</label>
+        <select id="year-select">
+            <option value="desc">LATEST BOOKS</option>
+            <option value="asc">OLDER BOOKS</option>
+        </select>
+    
+        <label for="page-select">SORT VIA PAGES</label>
+        <select id="page-select">
+            <option value="desc">MORE</option>
+            <option value="asc">FEWER</option>
+        </select>
+    </div>
+    
+    <!--  books container in ts exists -->
+    <div id="books-container"></div>
+
+    <!-- Ensure the script path is correct -->
+    <script type="module">
+        import { displayBooks, handleGenreChange } from './dist/index.js';
+    
+        document.addEventListener("DOMContentLoaded", () => {
+            displayBooks();
+    
+            // Function to get sorting preferences
+            function getSortPreferences() {
+                return {
+                    year: document.getElementById("year-select").value,
+                    pages: document.getElementById("page-select").value
+                };
+            }
+    
+            // Genre filter event listener
+            document.getElementById("genre-select").addEventListener("change", (event) => {
+                const genre = event.target.value;
+                const { year, pages } = getSortPreferences();
+                handleGenreChange(genre, year, pages);
+            });
+    
+            // Sorting event listener for year
+            document.getElementById("year-select").addEventListener("change", () => {
+                const genre = document.getElementById("genre-select").value;
+                const { year, pages } = getSortPreferences();
+                handleGenreChange(genre, year, pages);
+            });
+    
+            // Sorting event listener for pages
+            document.getElementById("page-select").addEventListener("change", () => {
+                const genre = document.getElementById("genre-select").value;
+                const { year, pages } = getSortPreferences();
+                handleGenreChange(genre, year, pages);
+            });
+        });
+    </script>
+    
+    
+</body>
+</html>

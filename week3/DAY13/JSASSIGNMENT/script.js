@@ -120,6 +120,7 @@ function updateCart() {
 }
 
 // Remove from Cart
+l
 function removeFromCart(bookId) {
     cart = cart.filter(book => book.id != bookId);
     updateCart();
@@ -189,3 +190,5 @@ document.addEventListener("DOMContentLoaded", () => {
     displayBooks();
     handlePageChange("desc");
 });
+
+
