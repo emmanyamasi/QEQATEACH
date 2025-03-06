@@ -1,0 +1,5 @@
+a route parameter  is defined  using a colon followed by a parameter name  in the route path
+
+app.get("/api/events/:id(req,res)=>{
+    const eventID = RE
+})

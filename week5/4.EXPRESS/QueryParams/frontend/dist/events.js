@@ -19,7 +19,26 @@ export const fetchBooks = (...args_1) => __awaiter(void 0, [...args_1], void 0, 
         }
         const data = yield response.json();
         console.log("Data received from API:", data); // Debugging
-        return Array.isArray(data) ? data : data.books || []; // Ensure it always returns an array even if the api respose format is unexepcted
+        return data; // Ensure it always returns an array even if the api respose format is unexepcted
+    }
+    catch (error) {
+        console.error("Error fetching books:", error);
+        return []; // Return an empty array if fetch fails
+    }
+});
+export const fetchBooksFilter = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (query = "") {
+    try {
+        const response = yield fetch(`http://localhost:3000/api/books/filter${query}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        });
+        if (!response.ok) {
+            const errorText = yield response.text();
+            throw new Error(`error ${response.status}:${errorText}`);
+        }
+        const data = yield response.json();
+        console.log("Data received from API:", data); // Debugging
+        return data; // Ensure it always returns an array even if the api respose format is unexepcted
     }
     catch (error) {
         console.error("Error fetching books:", error);
