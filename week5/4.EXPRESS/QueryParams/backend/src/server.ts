@@ -1,10 +1,9 @@
-import express,{Request,Response,NextFunction} from "express"
+import express, { Request, Response, NextFunction } from "express"
 import dotenv from 'dotenv'
 import { log } from "console"
 import { readFileSync } from "fs"
 import path from "path"
-import cors from  "cors"
-
+import cors from "cors"
 //comfigure the dotenv
 dotenv.config()
 
@@ -32,7 +31,7 @@ app.use(cors({
 
 //a simmple get request saying hey you
 
-app.get('/', (req,res)=>{
+app.get('/', (req, res) => {
     res.send(`hey you`)
 })
 
@@ -42,93 +41,62 @@ app.get('/', (req,res)=>{
 
 const _dirname = path.resolve()
 
-const eventData = readFileSync(
-    path.join(_dirname, "src","db","db.json"), "utf-8"
-)
+let books: any[] = []; //initialize the books array as an empty array
 
+try {
+    const eventData = readFileSync(path.join(_dirname, "src", "db", "db.json"), "utf-8"); //reads the db.json
 
-app.get('/api/books',(req:Request,res:Response) =>{
-    res.send(eventData)
-})
+    const parsedData = JSON.parse(eventData); //parses the json data  into javascript object
 
-//synchronously  read the file
-/**const eventData = readFileSync(
-    path.join(_dirname, "src","db","db.json"), "utf-8"
-)
+    if (!Array.isArray(parsedData.books)) {
+        throw new Error("Invalid book structure"); //checks  if  its is an array
 
-//console.log(eventData)
-
-
-app.get('/api/events', (req,res)=>{
-    res.send(eventData)
-})
-
-const events = [
-    {
-        id: 1,
-        title: "Tech Conference 2025",
-        location: "Nairobi",
-        company: "TechCorp",
-        price: 5000
-    },
-    {
-        id: 2,
-        title: "AI Workshop",
-        location: "Mombasa",
-        company: "AI Innovators",
-        price: 3000
-    },
-    {
-        id: 3,
-        title: "Web Development Bootcamp",
-        location: "Kisumu",
-        company: "CodeAcademy",
-        price: 4000
-    },
-    {
-        id: 4,
-        title: "Cybersecurity Summit",
-        location: "Nairobi",
-        company: "CyberSecure Ltd",
-        price: 4500
     }
-];
+
+    books = parsedData.books;
+} catch (error) {
+    console.error("Error loading books:", error);
+    books = [];//if any errroor occures  logs it  and assignd  empty array
+}
 
 
-//lets create a get api route  that filters  events based on query
-app.get('/api/eventsFilter', (req:Request,res:Response)=>{
+
+
+
+
+
+app.get('/api/books', (req: Request, res: Response) => {
+    res.json(books)//gets all books
+})
+app.get('/api/books/filter', (req: Request, res: Response) => {
     try {
-        const {title,location, company,price}= req.query
-        let filteredEvents = [...events]
-        //filtering logic
-        if(title){
-            filteredEvents = filteredEvents.filter((event) => event.title.toLowerCase().includes((title as string).toLowerCase()))
-        }
+        const { genre } = req.query; //extracts  genre from query parameters
+        console.log("received genre",genre);
 
-        if(location){
-            filteredEvents = filteredEvents.filter((event) => event.location.toLowerCase().includes((location as string).toLowerCase()))
+        if (!genre || typeof genre !== "string") { //validats the input if a string
+            res.status(400).json({ message: "Genre paramete is required and must be string" });
+            return;
         }
+        console.log("Books data before filtering:", books);
 
-        if(company){
-            filteredEvents = filteredEvents.filter((event) => event.company.toLowerCase().includes((company as string).toLowerCase()))
-        }
 
-        if(price){
-            const priceNum = parseFloat(price as string)
-            filteredEvents = filteredEvents.filter((event) => event.price=== priceNum)
-        }
-        
+        const filteredBooks = books.filter((book: any) => book.genre.toLowerCase().includes(genre.toLowerCase()));//uses includes to check  if a books genre  contains  the requested genre
+        res.json(filteredBooks); //respondd with filtereed books
+        return;
     } catch (error) {
-        
-    }
-   
-})**/
+        console.error("Error filtering books:", error);
+        res.status(500).json({ message: "Internal server error" });
+        return;
 
+    }
+});
 
 
 //create a server
-app.listen(port,()=>{
+app.listen(port, () => {
     console.log(`server is running on port :${port}`)
 })
+
+
 
 

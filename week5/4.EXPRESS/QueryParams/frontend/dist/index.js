@@ -7,7 +7,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var _a;
 import { fetchBooks } from "./events";
+import { fetchBooksFilter } from "./events";
 const displayBooks = (books) => {
     const booksList = document.getElementById("books-list");
     if (!booksList)
@@ -33,4 +35,12 @@ const loadBooks = (...args_1) => __awaiter(void 0, [...args_1], void 0, function
 });
 // Load books initially
 loadBooks();
+(_a = document.getElementById("genre-select")) === null || _a === void 0 ? void 0 : _a.addEventListener("change", (event) => __awaiter(void 0, void 0, void 0, function* () {
+    const genre = event.target.value;
+    console.log("Selected genre:", genre);
+    const queryParams = `?genre=${encodeURIComponent(genre)}`;
+    const filteredBooks = yield fetchBooksFilter(queryParams);
+    console.log("filteredBooks", filteredBooks);
+    displayBooks(filteredBooks);
+}));
 //# sourceMappingURL=index.js.map

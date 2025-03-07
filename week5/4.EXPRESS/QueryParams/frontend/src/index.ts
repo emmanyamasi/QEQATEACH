@@ -1,4 +1,5 @@
 import { fetchBooks } from "./events";
+import { fetchBooksFilter } from "./events";
 
 const displayBooks = (books: any[]) => {
   const booksList = document.getElementById("books-list");
@@ -29,4 +30,14 @@ const loadBooks = async (args: string = "") => {
 
 // Load books initially
 loadBooks();
+
+
+document.getElementById("genre-select")?.addEventListener("change", async(event) => {
+  const genre = (event.target as HTMLSelectElement).value;
+  console.log("Selected genre:", genre);
+  const queryParams=`?genre=${encodeURIComponent(genre)}`
+  const filteredBooks = await fetchBooksFilter(queryParams);
+  console.log("filteredBooks",filteredBooks);
+  displayBooks(filteredBooks);
+});
 

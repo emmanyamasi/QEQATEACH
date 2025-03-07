@@ -1,0 +1,38 @@
+//create
+-adds new data to the system
+insert a new record into a database
+http method -post
+
+app.post('api/events',(req:Request,res:Response)=>{
+    const newEvent =req.body //data
+    events.push(newEvent)
+    res.status(201).json(newEvent);
+})
+
+
+
+//read -retrieve or fetch data from data
+http method =get
+uses-id- primary key
+app.get('api/events/:id,(req:Request,res:Response)=>{
+
+})
+
+
+//update -modify existig data
+http:methods :PUT/PATCH
+PUT :REplace the entire resource And requires the full object to  update
+PATCH:updates only specific fields of a record
+//use id-required the id of the object
+
+
+//DELETE-removes data from the database
+//get id
+http method -DELETE
+
+
+
+//postgres
+users table
+//bookstable
+//button-postbook-open form modal and books send post request posting data to backend-newly added book
