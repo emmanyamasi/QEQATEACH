@@ -76,32 +76,138 @@ app.post('/api/v1/users', async (req: Request, res: Response) => {
 })
 
 
+
+
+
+//get all users
+app.get('/api/v1/users', async (req: Request, res: Response) => {
+    try {
+        const result = await pool.query("SELECT * FROM public.users ORDER BY  id ASC ")
+        res.status(200).json(result.rows)
+
+    } catch (error) {
+
+        console.error("ERROR getting user", error)
+        res.status(500).json({ message: "Internal server error" });
+
+    }
+})
+
+
+
+//get single users
+app.get('/api/v1/users/:id', async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params
+        const result = await pool.query("SELECT * FROM public.users WHERE id =$1", [id])
+        if (result.rows.length === 0) {
+            res.status(400).json({ message: "user not found" })
+            return
+        }
+
+        res.status(200).json(result.rows[0])
+
+
+    } catch (error) {
+
+        console.error("ERROR gettinguser ", error)
+        res.status(500).json({ message: "Internal server error" });
+
+    }
+})
+
+
+
+//update user
+
+app.put('/api/v1/users/:id', async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params
+        const { name, email, password } = req.body
+        const checkUser = await pool.query("SELECT * FROM public.users WHERE id =$1", [id])
+        if (checkUser.rows.length === 0) {
+            res.status(400).json({ message: "user not found" })
+            return
+        }
+
+        const result = await pool.query("UPDATE users  SET name =$1,email=$2,password=$3,updated_at=NOW() WHERE id=$4 RETURNING *", [name, email, password, id]);
+        res.json({ message: "User updated", user: result.rows[0] });
+
+
+
+
+
+    } catch (error) {
+
+        console.error("ERROR gettinguser ", error)
+        res.status(500).json({ message: "Internal server error" });
+
+    }
+})
+
+
+
+
+
+
+
+app.delete('/api/v1/users/:id', async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params
+        
+
+        const checkUser = await pool.query("SELECT * FROM public.users WHERE id =$1", [id])
+        if (checkUser.rows.length === 0) {
+            res.status(400).json({ message: "user not found" })
+            return
+        }
+            await pool.query("DELETE FROM  public.users WHERE id = $1",[id]);
+            res.json({message:"user deleted successfully"});
+
+        
+        
+
+    } catch (error) {
+
+        console.error("ERROR gettinguser ", error)
+        res.status(500).json({ message: "Internal server error" });
+
+    }
+})
+
+
+
+
+
+
+
 ///createan event
 app.post('/api/v1/events', async (req: Request, res: Response) => {
     try {
-        const {title,location,date,price,user_id}=req.body;
+        const { title, location, date, price, user_id } = req.body;
         //check if user exists
-        const userCheck = await pool.query("SELECT id FROM users WHERE id = $1",[user_id])
 
+        const userCheck = await pool.query("SELECT id FROM users WHERE id = $1", [user_id]);
         //if user does  not exist
-        if (userCheck.rows.length ===0){
-            res.status(400).json({message:"user not found"})
+        if (userCheck.rows.length === 0) {
+            res.status(400).json({ message: "user not found" })
             return
 
-        }
-        const eventResult =await pool.query("INSERT INTO events")
-        
+        } const eventResult = await pool.query(`INSERT INTO events(title,location,date,price,user_id) VALUES($1,$2,$3,$4,$5)RETURNING *`, [title, location, date, price, user_id]);
+        res.status(201).json({
+            message: "Event created succesfully",
+            event: eventResult.rows[0]
+        });
+
     } catch (error) {
         console.error("ERROR CREATING event", error)
         res.status(500).json({ message: "Internal server error" });
 
-        
+
     }
 
 
 })
-
-
 
 
 
