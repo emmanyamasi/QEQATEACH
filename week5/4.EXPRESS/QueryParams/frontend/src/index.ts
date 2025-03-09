@@ -1,5 +1,8 @@
 import { fetchBooks } from "./events";
 import { fetchBooksFilter } from "./events";
+import { fetchBooksSortP } from "./events";
+import { fetchBooksSortY } from "./events";
+
 
 const displayBooks = (books: any[]) => {
   const booksList = document.getElementById("books-list");
@@ -32,12 +35,31 @@ const loadBooks = async (args: string = "") => {
 loadBooks();
 
 
-document.getElementById("genre-select")?.addEventListener("change", async(event) => {
+document.getElementById("genre-select")?.addEventListener("change", async (event) => {
   const genre = (event.target as HTMLSelectElement).value;
   console.log("Selected genre:", genre);
-  const queryParams=`?genre=${encodeURIComponent(genre)}`
+  const queryParams = `?genre=${encodeURIComponent(genre)}`
   const filteredBooks = await fetchBooksFilter(queryParams);
-  console.log("filteredBooks",filteredBooks);
+  console.log("filteredBooks", filteredBooks);
   displayBooks(filteredBooks);
 });
 
+
+document.getElementById("page-select")?.addEventListener("change", async (event) => {
+  const page = (event.target as HTMLSelectElement).value;
+  console.log("selected pages:", page);
+  const queryParams = `?pages=${encodeURIComponent(page)}`
+  const sortedBooksP = await fetchBooksSortP(queryParams);
+  console.log("sortedBooks", sortedBooksP)
+  displayBooks(sortedBooksP);
+})
+
+
+document.getElementById("year-select")?.addEventListener("change", async (event) => {
+  const year = (event.target as HTMLSelectElement).value;
+  console.log("selected year:", year);
+  const queryParams = `?year=${encodeURIComponent(year)}`
+  const sortedBooksY = await fetchBooksSortY(queryParams);
+  console.log("sortedBooksy", sortedBooksY)
+  displayBooks(sortedBooksY);
+})

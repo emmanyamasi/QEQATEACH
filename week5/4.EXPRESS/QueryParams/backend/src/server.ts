@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express"
+import express, { Request, Response, NextFunction, response } from "express"
 import dotenv from 'dotenv'
 import { log } from "console"
 import { readFileSync } from "fs"
@@ -71,7 +71,7 @@ app.get('/api/books', (req: Request, res: Response) => {
 app.get('/api/books/filter', (req: Request, res: Response) => {
     try {
         const { genre } = req.query; //extracts  genre from query parameters
-        console.log("received genre",genre);
+        console.log("received genre", genre);
 
         if (!genre || typeof genre !== "string") { //validats the input if a string
             res.status(400).json({ message: "Genre paramete is required and must be string" });
@@ -90,6 +90,58 @@ app.get('/api/books/filter', (req: Request, res: Response) => {
 
     }
 });
+
+app.get('/api/books/sortP', (req: Request, res: Response) => {
+    try {
+        const { pages } = req.query;
+        console.log("received order", pages);
+
+        let sortedBooksP = [...books]; //makes acopy preventing  modifying original data
+        if (pages === 'asc') {
+            sortedBooksP.sort((a, b) => a.pages - b.pages);
+
+
+        } else if (pages === 'desc') {
+            sortedBooksP.sort((a, b) => b.pages - a.pages);
+
+        }
+        res.status(200).json(sortedBooksP)
+        return;
+
+
+
+    } catch (error) {
+        console.error("Error in sorting by pages books:", error);
+        res.status(500).json({ message: "Internal server error" });
+        return;
+
+    }
+});
+
+
+app.get('/api/books/sortY',(req:Request,res:Response)=>{
+    try {
+        const {year} =req.query;
+        console.log("received year",year)
+        let sortedBooksY= [...books];
+        if(year === 'asc'){
+            sortedBooksY.sort((a,b)=>a.year -b.year);
+
+        }else if(year === 'desc'){
+            sortedBooksY.sort((a,b)=> b.year- a.year);
+
+        }
+        res.status(200).json(sortedBooksY)
+        return;
+        
+    } catch (error) {
+        console.error("Error in sorting by pages books:", error);
+        res.status(500).json({ message: "Internal server error" });
+        return;
+
+        
+    }
+})
 
 
 //create a server

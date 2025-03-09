@@ -7,9 +7,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var _a;
+var _a, _b, _c;
 import { fetchBooks } from "./events";
 import { fetchBooksFilter } from "./events";
+import { fetchBooksSortP } from "./events";
+import { fetchBooksSortY } from "./events";
 const displayBooks = (books) => {
     const booksList = document.getElementById("books-list");
     if (!booksList)
@@ -42,5 +44,21 @@ loadBooks();
     const filteredBooks = yield fetchBooksFilter(queryParams);
     console.log("filteredBooks", filteredBooks);
     displayBooks(filteredBooks);
+}));
+(_b = document.getElementById("page-select")) === null || _b === void 0 ? void 0 : _b.addEventListener("change", (event) => __awaiter(void 0, void 0, void 0, function* () {
+    const page = event.target.value;
+    console.log("selected pages:", page);
+    const queryParams = `?pages=${encodeURIComponent(page)}`;
+    const sortedBooksP = yield fetchBooksSortP(queryParams);
+    console.log("sortedBooks", sortedBooksP);
+    displayBooks(sortedBooksP);
+}));
+(_c = document.getElementById("year-select")) === null || _c === void 0 ? void 0 : _c.addEventListener("change", (event) => __awaiter(void 0, void 0, void 0, function* () {
+    const year = event.target.value;
+    console.log("selected year:", year);
+    const queryParams = `?year=${encodeURIComponent(year)}`;
+    const sortedBooksY = yield fetchBooksSortY(queryParams);
+    console.log("sortedBooksy", sortedBooksY);
+    displayBooks(sortedBooksY);
 }));
 //# sourceMappingURL=index.js.map
