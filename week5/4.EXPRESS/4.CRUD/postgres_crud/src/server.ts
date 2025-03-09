@@ -154,18 +154,18 @@ app.put('/api/v1/users/:id', async (req: Request, res: Response) => {
 app.delete('/api/v1/users/:id', async (req: Request, res: Response) => {
     try {
         const { id } = req.params
-        
+
 
         const checkUser = await pool.query("SELECT * FROM public.users WHERE id =$1", [id])
         if (checkUser.rows.length === 0) {
             res.status(400).json({ message: "user not found" })
             return
         }
-            await pool.query("DELETE FROM  public.users WHERE id = $1",[id]);
-            res.json({message:"user deleted successfully"});
+        await pool.query("DELETE FROM  public.users WHERE id = $1", [id]);
+        res.json({ message: "user deleted successfully" });
 
-        
-        
+
+
 
     } catch (error) {
 
@@ -209,6 +209,89 @@ app.post('/api/v1/events', async (req: Request, res: Response) => {
 
 })
 
+
+///get all
+app.get('/api/v1/events', async (req: Request, res: Response) => {
+    try {
+        const result = await pool.query("SELECT * FROM public.events ORDER BY id ASC")
+        res.status(200).json(result.rows)
+
+
+    } catch (error) {
+
+        console.error("ERROR gettin event", error)
+        res.status(500).json({ message: "Internal server error" });
+
+    }
+})
+
+//get one event
+app.get('/api/v1/events/:id', async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params
+        const result = await pool.query("SELECT * FROM public.events WHERE id=$1", [id])
+        if (result.rows.length === 0) {
+            res.status(400).json({ message: "event not found" })
+            return
+
+        }
+        res.status(200).json(result.rows[0])
+
+    } catch (error) {
+
+        console.error("ERROR gettin event", error)
+        res.status(500).json({ message: "Internal server error" });
+
+
+    }
+})
+
+
+//update event
+app.put('/api/v1/events/:id', async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params
+        const { title, location, date, price, user_id } = req.body
+        const checkEvent = await pool.query("SELECT * FROM public.events WHERE id= $1", [id])
+        if (checkEvent.rows.length === 0) {
+            res.status(400).json({ message: "not found" })
+            return
+        }
+        const result = await pool.query(
+            "UPDATE events SET title = $1, location= $2, date =$3, price= $4,user_id =$5,updated_at =NOW() WHERE id=$6 RETURNING *", [title, location, date, price,user_id,id]);
+        res.json({ message: "event updated", event: result.rows[0] });
+
+
+    } catch (error) {
+
+        console.error("ERROR gettinguser ", error)
+        res.status(500).json({ message: "Internal server error" });
+
+    }
+
+
+})
+
+
+//delete event
+app.delete("/api/v1/events/:id", async (req: Request, res: Response) => {
+    try {
+
+        const { id } = req.params
+        const checkEvent = await pool.query("SELECT * FROM public.events WHERE id = $1", [id])
+        if (checkEvent.rows.length === 0) {
+            res.status(404).json({ message: "not found" });
+            return
+        }
+        await pool.query("DELETE FROM public.events WHERE id = $1", [id]);
+        res.json({ message: "event deleted" });
+    } catch (error) {
+
+        console.error("ERRO deleting r ", error)
+        res.status(500).json({ message: "Internal server error" });
+
+    }
+})
 
 
 
