@@ -71,3 +71,30 @@ export const postBook = async (book: Omit<Book, "id">): Promise<Book> => { //omi
 
 
 
+
+export const updateBook = async (book: Book): Promise<void> => { //omits  the id because the id is usually generated in server the function  returna apromise  taht will  eventually resolve to a book object
+
+  try {
+    console.log("Sending book:", book); // Log the book object
+    const response = await fetch(`http://localhost:3000/api/v1/books/${book.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(book), //coverts the book to the json  string before sending it
+    });
+    console.log("📥 Raw response:", response);
+    if (!response.ok) {
+      const errorText = await response.text(); // Get the server's error message
+      throw new Error(`Error ${response.status}: ${errorText}`);
+    }
+    const data = await response.json(); //converts  the response  from json  to ajavascript object
+
+    console.log("updated a book", data);
+    return data;
+  } catch (error) {
+    console.error("Error updating book:", error);
+    throw error;
+  }
+};
+
+
+

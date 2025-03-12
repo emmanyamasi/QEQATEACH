@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { fetchBooks, postBook } from "./books";
+import { fetchBooks, postBook, updateBook } from "./books";
 let booksData = [];
 const displayBooks = (books) => {
     const booksList = document.getElementById("books-list");
@@ -27,42 +27,20 @@ const displayBooks = (books) => {
 
 
       <button class="add-to-cart" data-title="${book.title}" data-price="${book.price}">Add to Cart</button>
-      <button class="delete-btn" data-id="BOOK_ID">Delete</button>
-      
-          
+      <button class="delete-btn" data-id="${book.id}">Delete</button>
+      <button class="update-book" data-id="${book.id}">UPDATE</button>
     </div>
   `).join("");
-};
-document.addEventListener("DOMContentLoaded", () => {
-    document.addEventListener("click", (event) => __awaiter(void 0, void 0, void 0, function* () {
-        var _a;
-        const target = event.target;
-        if (target.classList.contains("delete-btn")) {
-            const bookId = target.getAttribute("data-id");
-            if (!bookId)
-                return;
-            // Confirm before deleting
-            if (!confirm("Are you sure you want to delete this book?"))
-                return;
-            try {
-                const response = yield fetch(`/api/v1/books/${bookId}`, {
-                    method: "DELETE",
-                });
-                if (response.ok) {
-                    alert("Book deleted successfully.");
-                    (_a = target.closest(".book-item")) === null || _a === void 0 ? void 0 : _a.remove(); // Remove from UI
-                }
-                else {
-                    alert("Failed to delete book.");
-                }
-            }
-            catch (error) {
-                console.error("Error deleting book:", error);
-                alert("An error occurred.");
-            }
+    // Add event listeners to all update buttons
+    const updateButtons = booksList.querySelectorAll(".update-book");
+    updateButtons.forEach((button) => {
+        const bookId = parseInt(button.getAttribute("data-id") || "0");
+        const book = books.find(b => b.id === bookId);
+        if (book) {
+            button.onclick = () => showUpdateForm(book);
         }
-    }));
-});
+    });
+};
 const postButton = document.getElementById("post-book");
 const postBookSection = document.getElementById("post-book-section");
 const postBookForm = document.getElementById("post-book-form");
@@ -105,6 +83,62 @@ if (postButton && postBookSection && postBookForm) {
         });
     }
 }
+// New function to show and handle the update form
+export const showUpdateForm = (book) => {
+    const updateSection = document.getElementById("update-book-section");
+    const updateForm = document.getElementById("update-book-form");
+    const cancelUpdate = document.getElementById("cancel-update");
+    if (updateSection && updateForm) {
+        // Populate form with book data
+        document.getElementById("update-id").value = book.id.toString();
+        document.getElementById("update-title").value = book.title;
+        document.getElementById("update-author").value = book.author || "";
+        document.getElementById("update-genre").value = book.genre || "";
+        document.getElementById("update-year").value = book.year.toString();
+        document.getElementById("update-pages").value = book.pages.toString();
+        document.getElementById("update-price").value = book.price.toString();
+        document.getElementById("update-publisher").value = book.publisher || "";
+        document.getElementById("update-description").value = book.description || "";
+        document.getElementById("update-image").value = book.image || "";
+        document.getElementById("update-user_id").value = book.user_id.toString();
+        updateSection.style.display = "block";
+        // Handle form submission
+        updateForm.onsubmit = (e) => __awaiter(void 0, void 0, void 0, function* () {
+            e.preventDefault();
+            const updatedBook = {
+                id: parseInt(document.getElementById("update-id").value),
+                title: document.getElementById("update-title").value,
+                author: document.getElementById("update-author").value,
+                genre: document.getElementById("update-genre").value,
+                year: parseInt(document.getElementById("update-year").value),
+                pages: parseInt(document.getElementById("update-pages").value),
+                price: parseInt(document.getElementById("update-price").value),
+                publisher: document.getElementById("update-publisher").value,
+                description: document.getElementById("update-description").value,
+                image: document.getElementById("update-image").value,
+                user_id: parseInt(document.getElementById("update-user_id").value)
+            };
+            try {
+                yield updateBook(updatedBook);
+                displayBooks(yield fetchBooks()); // Refresh the book list
+                updateSection.style.display = "none";
+                updateForm.reset();
+                alert("Book updated successfully!");
+            }
+            catch (error) {
+                console.error("Failed to update book:", error);
+                alert("Failed to update book. Please try again.");
+            }
+        });
+        // Handle cancel button
+        if (cancelUpdate) {
+            cancelUpdate.onclick = () => {
+                updateSection.style.display = "none";
+                updateForm.reset();
+            };
+        }
+    }
+};
 // Fetch and display events on page load
 export const loadBooks = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (args = "") {
     const books = yield fetchBooks(args);

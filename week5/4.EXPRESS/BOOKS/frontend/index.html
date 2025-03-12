@@ -38,7 +38,26 @@
     <button type="button" id="cancel-post">Cancel</button>
   </form>
 </div>
-<button class="delete-btn" data-id="${book.id}">Delete</button>
+
+<!-- Update a Book Form -->
+<div id="update-book-section" style="display: none;">
+  <h2>Update Book</h2>
+  <form id="update-book-form">
+      <input type="hidden" id="update-id">
+      <input type="text" id="update-title" placeholder="Title" required />
+      <input type="text" id="update-author" placeholder="Author" required />
+      <input type="text" id="update-genre" placeholder="Genre" />
+      <input type="number" id="update-year" placeholder="Year" />
+      <input type="number" id="update-pages" placeholder="Pages" />
+      <input type="number" id="update-price" placeholder="PRICE" />
+      <input type="text" id="update-publisher" placeholder="Publisher" />
+      <textarea id="update-description" placeholder="Description"></textarea>
+      <input type="text" id="update-image" placeholder="Image URL" />
+      <input type="number" id="update-user_id" placeholder="user_id" />
+      <button id="update-button" type="submit">Update Book</button>
+      <button type="button" id="cancel-update">Cancel</button>
+  </form>
+</div>
 
 
 

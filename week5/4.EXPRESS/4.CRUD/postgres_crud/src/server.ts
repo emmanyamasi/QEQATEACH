@@ -214,7 +214,7 @@ app.post('/api/v1/events', async (req: Request, res: Response) => {
 app.get('/api/v1/events', async (req: Request, res: Response) => {
     try {
         const result = await pool.query("SELECT * FROM public.events ORDER BY id ASC")
-        res.status(200).json(result.rows)
+        res.status(200).json(result.rows) //all rows
 
 
     } catch (error) {
@@ -231,7 +231,7 @@ app.get('/api/v1/events/:id', async (req: Request, res: Response) => {
         const { id } = req.params
         const result = await pool.query("SELECT * FROM public.events WHERE id=$1", [id])
         if (result.rows.length === 0) {
-            res.status(400).json({ message: "event not found" })
+            res.status(404).json({ message: "event not found" })
             return
 
         }
@@ -247,11 +247,12 @@ app.get('/api/v1/events/:id', async (req: Request, res: Response) => {
 })
 
 
-//update event
+//update event with put  you should update everything
 app.put('/api/v1/events/:id', async (req: Request, res: Response) => {
     try {
         const { id } = req.params
-        const { title, location, date, price, user_id } = req.body
+        const { title, location, date, price, user_id } = req.body //before updating check if available
+
         const checkEvent = await pool.query("SELECT * FROM public.events WHERE id= $1", [id])
         if (checkEvent.rows.length === 0) {
             res.status(400).json({ message: "not found" })

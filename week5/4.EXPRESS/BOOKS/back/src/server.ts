@@ -35,7 +35,7 @@ app.use(express.urlencoded({ extended: true }))
 //enable cors with options(RECOMMENDED)
 app.use(cors({
     origin: "http://localhost:5173",  // 
-    methods: "GET,POST,PUT,DELETE",
+    methods: "GET,POST,PUT,DELETE,PATCH",
     credentials: true
 }));
 
@@ -316,7 +316,7 @@ app.patch('/api/v1/books/:id', async (req: Request, res: Response) => {
                 user_id = COALESCE($10, user_id),
                 updated_at = NOW()
             WHERE id = $11 RETURNING*`,
-            [title || null, author || null, genre || null, year || null, pages || null, publisher || null, description || null, image || null, price || null, user_id ||null, id]);
+            [title || null,  genre || null, year || null,publisher || null, pages || null,  description || null, image || null, price || null,author || null, user_id ||null, id]);
         res.json({ message: "event updated", event: result.rows[0] });
 
 
@@ -334,20 +334,6 @@ app.patch('/api/v1/books/:id', async (req: Request, res: Response) => {
 
 
 
-
-app.delete('/api/v1/books', async (req: Request, res: Response) => {
-    try {
-        const result = await pool.query("SELECT * FROM public.books ORDER BY id ASC")
-        res.status(200).json(result.rows)
-
-
-    } catch (error) {
-
-        console.error("ERROR deleting book", error)
-        res.status(500).json({ message: "Internal server error" });
-
-    }
-})
 
 
 //delete a book by id

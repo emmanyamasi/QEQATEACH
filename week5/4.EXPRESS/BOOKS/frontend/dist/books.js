@@ -51,4 +51,26 @@ export const postBook = (book) => __awaiter(void 0, void 0, void 0, function* ()
         throw error;
     }
 });
+export const updateBook = (book) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        console.log("Sending book:", book); // Log the book object
+        const response = yield fetch(`http://localhost:3000/api/v1/books/${book.id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(book), //coverts the book to the json  string before sending it
+        });
+        console.log("📥 Raw response:", response);
+        if (!response.ok) {
+            const errorText = yield response.text(); // Get the server's error message
+            throw new Error(`Error ${response.status}: ${errorText}`);
+        }
+        const data = yield response.json(); //converts  the response  from json  to ajavascript object
+        console.log("updated a book", data);
+        return data;
+    }
+    catch (error) {
+        console.error("Error posting book:", error);
+        throw error;
+    }
+});
 //# sourceMappingURL=books.js.map

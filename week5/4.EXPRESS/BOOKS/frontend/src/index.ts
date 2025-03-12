@@ -1,4 +1,4 @@
-import { fetchBooks, postBook } from "./books";
+import { fetchBooks, postBook, updateBook } from "./books";
 
 
 
@@ -42,48 +42,22 @@ const displayBooks = (books: Book[]) => {
 
 
       <button class="add-to-cart" data-title="${book.title}" data-price="${book.price}">Add to Cart</button>
-      <button class="delete-btn" data-id="BOOK_ID">Delete</button>
-      
-          
+      <button class="delete-btn" data-id="${book.id}">Delete</button>
+      <button class="update-book" data-id="${book.id}">UPDATE</button>
     </div>
   `).join("");
 
-
-
-
-
-};
-
-
-document.addEventListener("DOMContentLoaded", () => {
-  document.addEventListener("click", async (event) => {
-    const target = event.target as HTMLElement;
-    
-    if (target.classList.contains("delete-btn")) {
-      const bookId = target.getAttribute("data-id");
-      if (!bookId) return;
-
-      // Confirm before deleting
-      if (!confirm("Are you sure you want to delete this book?")) return;
-
-      try {
-        const response = await  fetch(`/api/v1/books/${bookId}`, {
-          method: "DELETE",
-        });
-
-        if (response.ok) {
-          alert("Book deleted successfully.");
-          target.closest(".book-item")?.remove(); // Remove from UI
-        } else {
-          alert("Failed to delete book.");
-        }
-      } catch (error) {
-        console.error("Error deleting book:", error);
-        alert("An error occurred.");
-      }
+  // Add event listeners to all update buttons
+  const updateButtons = booksList.querySelectorAll(".update-book");
+  updateButtons.forEach((button) => {
+    const bookId = parseInt(button.getAttribute("data-id") || "0");
+    const book = books.find(b => b.id === bookId);
+    if (book) {
+      (button as HTMLButtonElement).onclick = () => showUpdateForm(book);
     }
   });
-});
+};
+
 
 
 
@@ -135,6 +109,69 @@ if (postButton && postBookSection && postBookForm) {
     });
   }
 }
+
+
+
+// New function to show and handle the update form
+export const showUpdateForm = (book: Book): void => {
+  const updateSection = document.getElementById("update-book-section") as HTMLElement;
+  const updateForm = document.getElementById("update-book-form") as HTMLFormElement;
+  const cancelUpdate = document.getElementById("cancel-update") as HTMLButtonElement;
+
+  if (updateSection && updateForm) {
+    // Populate form with book data
+    (document.getElementById("update-id") as HTMLInputElement).value = book.id.toString();
+    (document.getElementById("update-title") as HTMLInputElement).value = book.title;
+    (document.getElementById("update-author") as HTMLInputElement).value = book.author || "";
+    (document.getElementById("update-genre") as HTMLInputElement).value = book.genre || "";
+    (document.getElementById("update-year") as HTMLInputElement).value = book.year.toString();
+    (document.getElementById("update-pages") as HTMLInputElement).value = book.pages.toString();
+    (document.getElementById("update-price") as HTMLInputElement).value = book.price.toString();
+    (document.getElementById("update-publisher") as HTMLInputElement).value = book.publisher || "";
+    (document.getElementById("update-description") as HTMLTextAreaElement).value = book.description || "";
+    (document.getElementById("update-image") as HTMLInputElement).value = book.image || "";
+    (document.getElementById("update-user_id") as HTMLInputElement).value = book.user_id.toString();
+
+    updateSection.style.display = "block";
+
+    // Handle form submission
+    updateForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const updatedBook = {
+        id: parseInt((document.getElementById("update-id") as HTMLInputElement).value),
+        title: (document.getElementById("update-title") as HTMLInputElement).value,
+        author: (document.getElementById("update-author") as HTMLInputElement).value,
+        genre: (document.getElementById("update-genre") as HTMLInputElement).value,
+        year: parseInt((document.getElementById("update-year") as HTMLInputElement).value),
+        pages: parseInt((document.getElementById("update-pages") as HTMLInputElement).value),
+        price: parseInt((document.getElementById("update-price") as HTMLInputElement).value),
+        publisher: (document.getElementById("update-publisher") as HTMLInputElement).value,
+        description: (document.getElementById("update-description") as HTMLTextAreaElement).value,
+        image: (document.getElementById("update-image") as HTMLInputElement).value,
+        user_id: parseInt((document.getElementById("update-user_id") as HTMLInputElement).value)
+      };
+
+      try {
+        await updateBook(updatedBook);
+        displayBooks(await fetchBooks()); // Refresh the book list
+        updateSection.style.display = "none";
+        updateForm.reset();
+        alert("Book updated successfully!");
+      } catch (error) {
+        console.error("Failed to update book:", error);
+        alert("Failed to update book. Please try again.");
+      }
+    };
+
+    // Handle cancel button
+    if (cancelUpdate) {
+      cancelUpdate.onclick = () => {
+        updateSection.style.display = "none";
+        updateForm.reset();
+      };
+    }
+  }
+};
 
 
 
