@@ -12,6 +12,7 @@ import { fetchBooks } from "./events";
 import { fetchBooksFilter } from "./events";
 import { fetchBooksSortP } from "./events";
 import { fetchBooksSortY } from "./events";
+import { addToCart, updateCartDisplay, removefromCart } from "./cart";
 const displayBooks = (books) => {
     const booksList = document.getElementById("books-list");
     if (!booksList)
@@ -23,11 +24,28 @@ const displayBooks = (books) => {
       <p><strong>Author:</strong> ${book.author}</p>
       <p><strong>Genre:</strong> ${book.genre}</p>
       <p><strong>Year:</strong> ${book.year}</p>
-      <p><strong>Pages:</strong> ${book.pages}</p>
-      <button><strong>Price:</strong> $${book.price.toFixed(2)}</button>
+      <p><strong>Price:</strong> $${book.price.toFixed(2)}</p>
+      <button class="add-to-cart" data-title="${book.title}" data-price="${book.price}">Add to Cart</button>
           
     </div>
   `).join("");
+    document.querySelectorAll(".add-to-cart").forEach(button => {
+        button.addEventListener("click", (event) => {
+            const target = event.target;
+            const title = target.getAttribute("data-title");
+            const price = parseFloat(target.getAttribute("data-price"));
+            addToCart(title, price);
+            alert(`${title} added to cart`);
+        });
+    });
+    document.querySelectorAll(".remove-from-cart").forEach(button => {
+        button.addEventListener("click", (event) => {
+            const target = event.target;
+            const title = target.getAttribute("data-title");
+            removefromCart(title);
+            updateCartDisplay(); // Ensure UI updates after removing
+        });
+    });
 };
 // Fetch and display events on page load
 const loadBooks = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (args = "") {

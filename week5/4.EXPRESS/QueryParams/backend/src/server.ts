@@ -1,9 +1,10 @@
-import express, { Request, Response, NextFunction, response } from "express"
+import express, { Request, Response, NextFunction } from "express"
 import dotenv from 'dotenv'
 import { log } from "console"
 import { readFileSync } from "fs"
 import path from "path"
 import cors from "cors"
+
 //comfigure the dotenv
 dotenv.config()
 
@@ -26,6 +27,11 @@ app.use(cors({
     credentials: true
 }));
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+
+
+
 
 
 
@@ -33,6 +39,7 @@ app.use(cors({
 
 app.get('/', (req, res) => {
     res.send(`hey you`)
+
 })
 
 
