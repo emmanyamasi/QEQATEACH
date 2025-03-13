@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Document</title>
+</head>
+<body>
+  
+
+
+    <nav class="navbar">
+    <div class="nav-title">Books</div>
+
+    <div id="cart">
+        <h2>Shopping Cart</h2>
+        <ul id="cart-items"></ul>
+      </div>
+      
+    
+</nav>
+
+
+   
+
+    <div class="select-container">
+        <label for="genre-select">Select Genre</label>
+        <select id="genre-select">
+            <option value="">ALL GENRES</option>
+            <option value="Fantasy">Fantasy</option>
+            <option value="Dystopian">Dystopian</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Romance">Romance</option>
+            <option value="Fiction">Fiction</option>
+        </select>
+    
+        <label for="year-select">SORT VIA YEAR</label>
+        <select id="year-select">
+            <option value="desc">LATEST BOOKS</option>
+            <option value="asc">OLDER BOOKS</option>
+        </select>
+    
+        <label for="page-select">SORT VIA PAGES</label>
+        <select id="page-select">
+            <option value="desc">MORE</option>
+            <option value="asc">FEWER</option>
+        </select>
+    </div>
+    
+    <div id="books-list"></div>
+    <script type="module" src="./dist/index.js"></script>
+</body>
+</html>

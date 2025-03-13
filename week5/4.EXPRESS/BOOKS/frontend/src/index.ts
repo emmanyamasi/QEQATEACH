@@ -1,4 +1,4 @@
-import { fetchBooks, postBook, updateBook } from "./books";
+import { fetchBooks, postBook, updateBook ,deleteBook} from "./books";
 
 
 
@@ -41,7 +41,7 @@ const displayBooks = (books: Book[]) => {
       <p><strong>Price:</strong> $${book.price ? Number(book.price).toFixed(2) : "N/A"}</p>
 
 
-      <button class="add-to-cart" data-title="${book.title}" data-price="${book.price}">Add to Cart</button>
+      /*<button class="add-to-cart" data-title="${book.title}" data-price="${book.price}">Add to Cart</button>*/
       <button class="delete-btn" data-id="${book.id}">Delete</button>
       <button class="update-book" data-id="${book.id}">UPDATE</button>
     </div>
@@ -58,6 +58,17 @@ const displayBooks = (books: Book[]) => {
   });
 };
 
+
+// const deleteButton = booksList.querySelector(".delete-btn") as HTMLButtonElement;
+// if (deleteButton) {
+//     deleteButton.setAttribute("data-id", book.id.toString());
+//     deleteButton.onclick = async () => {
+//         if (confirm(`Are you sure you want to delete "${book.title}"?)`) {
+//             await deleteBook(book.id);
+//             displayBooks(await fetchBooks()); // Refresh the book list
+//         }
+//     };
+//         };
 
 
 

@@ -69,7 +69,24 @@ export const updateBook = (book) => __awaiter(void 0, void 0, void 0, function* 
         return data;
     }
     catch (error) {
-        console.error("Error posting book:", error);
+        console.error("Error updating book:", error);
+        throw error;
+    }
+});
+// New function to delete a book
+export const deleteBook = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield fetch(`http://localhost:3000/api/v1/books/${id}`, {
+            method: "DELETE",
+        });
+        if (!response.ok)
+            throw new Error("Failed to delete book");
+        console.log("Book deleted successfully");
+        // Refresh booksData after deletion
+        booksData = yield fetchBooks();
+    }
+    catch (error) {
+        console.error("Error deleting book:", error);
         throw error;
     }
 });

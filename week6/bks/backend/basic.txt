@@ -1,0 +1,11 @@
+//routes
+//backbone of web
+
+//controllers
+//functions that handle the logic of a specific route instead of writing all the logic 
+const getUser = (req,res)=>{
+    tr
+}
+
+//have response
+//middlewares used in authentication
