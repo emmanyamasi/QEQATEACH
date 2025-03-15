@@ -7,7 +7,7 @@ export const createUser = asyncHandler(async (req: Request, res: Response) => {
     try {
         const { name, email, password, role_id } = req.body
         //check if email is unique
-        const emailCheck = await pool.query("SELECT user_id from users WHERE email = $1", [email])
+        const emailCheck = await pool.query("SELECT id from users WHERE email = $1", [email])
         if (emailCheck.rows.length > 0) {
             res.status(400).json({ message: "user already exists" })
             return
