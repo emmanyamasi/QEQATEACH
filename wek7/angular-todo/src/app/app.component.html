@@ -1,0 +1,45 @@
+<!-- Main container for the To-Do app -->
+
+<main class="todo-container">
+
+  
+  <!-- Section for adding new tasks -->
+  <div class="add-task">
+     <!-- Input field bound to 'newTask' variable using two-way binding [(ngModel)] -->
+    <input [(ngModel)]="newTask" placeholder="Enter new task" /> <!--BINDS  THE Inputfield tothe newTask variable Two-Way Data Binding ([(ngModel)])-->
+    
+    <!-- Button to add a new task, calling the 'addTask()' function when clicked -->
+    <button (click)="addTask()">Add</button>
+  </div>
+  
+  <!-- Unordered list (UL) to display the list of tasks -->
+  <ul class="task-list">
+
+     <!-- Loop through the 'todoList' array using *ngFor directive -->
+    <!-- 'i' is the index of the task in the list -->
+     <!--Attribute Binding ([ngClass])[ngClass]="{'completed': todoItem.completed}" adds the CSS class 'completed' if the task is done-->
+    <li *ngFor="let todoItem of todoList; let i=index" [ngClass]="{'completed':todoItem.completed}"> <!--structural directive *ngfor-- *ngFor="let todoItem of todoList; let i=index" loops through the todoList array.Displays each task dynamically-->
+            
+      <!-- Checkbox for marking tasks as completed -->
+      <!-- Uses [(ngModel)] for two-way binding to update 'completed' status -->
+      <input type="checkbox" [(checked)]="todoItem.completed" (change)="toggleCompleted(i)" />
+
+      <!-- Task text with dynamic styling -->
+      <!-- If the task is completed, the 'completed' class is applied -->
+
+      <span [class.completed]="todoItem.completed"> {{todoItem.task}}</span>
+          <!-- Delete button to remove a task -->
+      <!-- Calls 'deleteTask(todoItem.id)' when clicked -->
+      <button (click)="deleteTask(todoItem.id)">DELETE</button>
+<!--Event Binding ((click), (change))(click)="addTask()" triggers the addTask() function when the "Add" button is clicked.-->
+<!--(click)="deleteTask(todoItem.id)" removes a task.-->
+<!--(change)="toggleCompleted(i)" marks a task as completed when the checkbox is clicked-->
+    </li>
+  </ul>
+
+</main>
+
+
+<!--Router Outlet (<router-outlet>)This allows navigation between different pages in an Angular application.-->
+
+<router-outlet />
