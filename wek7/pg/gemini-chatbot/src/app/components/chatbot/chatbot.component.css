@@ -1,0 +1,132 @@
+/* Overall layout */
+.container {
+    display: flex;
+    height: 100vh;
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(to right, #f8f9fa, #dff6ff);
+  }
+  
+  /* Left Side: Mama Care */
+  .mama-care {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(to bottom, #ffdde1, #ee9ca7);
+    border-radius: 20px;
+    margin: 20px;
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+
+.mama-image {
+    width: 350px;
+    height: 350px;
+    margin-bottom: 15px;
+    border-radius: 20px; /* Optional for rounded edges */
+    object-fit: cover;
+  }
+  
+  .gradient-text {
+    font-size: 36px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #f26a16, #ee0979);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  /* Right Side: Chatbot */
+  .chat-container {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  h2 {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Chatbox styling */
+  .chat-messages {
+    width: 90%;
+    height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .message {
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px 0;
+  }
+  
+  .message.user {
+    background: linear-gradient(90deg, #8e44ad, #c0392b);
+    color: white;
+    text-align: right;
+    border-radius: 10px 10px 0px 10px;
+  }
+  
+  .message.chatbot {
+    background: #dff6ff;
+    color: black;
+    text-align: left;
+    border-radius: 10px 10px 10px 0px;
+  }
+  
+  /* Input and Button */
+  .chat-input {
+    display: flex;
+    gap: 10px;
+    width: 90%;
+    margin-top: 15px;
+  }
+  
+  input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    border: none;
+    background: linear-gradient(90deg, #4158d0, #f441a5, #ffcc70, #4158d0);
+    background-size: 300%;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  button:hover {
+    animation: ani 8s linear infinite;
+  }
+  
+  @keyframes ani {
+    0% {
+      background-position: 0%;
+    }
+    100% {
+      background-position: 200%;
+    }
+  }
+  

@@ -1,0 +1,28 @@
+<div class="container">
+    <!-- Left Side: Mama Care -->
+    <div class="mama-care">
+      <img src="assets/mama.jpeg" alt="Mama Care Logo" class="mama-image" />
+      <h1 class="gradient-text">Mama Care</h1>
+      <p>"Your pregnancy journey, answered.<br> Ask away! 👶❓💬"</p>
+    </div>
+  
+    <!-- Right Side: Chatbot -->
+    <div class="chat-container">
+      <h2>Hey mama</h2>
+      <div class="chat-messages">
+        <div *ngFor="let message of messages" class="message" [ngClass]="message.sender">
+          <span>{{ message.text }}</span>
+        </div>
+      </div>
+      <div class="chat-input">
+        <input
+          type="text"
+          [(ngModel)]="userMessage"
+          placeholder="Type your message..."
+          (keyup.enter)="sendMessage()"
+        />
+        <button (click)="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>
+  

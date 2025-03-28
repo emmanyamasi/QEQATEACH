@@ -1,0 +1,9 @@
+
+
+<div class="container mt-4">
+    <h2>Twitter Clone</h2>
+    <app-user-select (ngModelChange)="selectedUserId = $event"></app-user-select>
+    
+    <app-posts [userId]="selectedUserId"></app-posts>
+  </div>
+  

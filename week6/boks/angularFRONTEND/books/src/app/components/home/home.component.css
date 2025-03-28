@@ -1,0 +1,45 @@
+/* Center the content on the page */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Styling for the heading */
+.home-container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+/* Paragraph styling */
+.home-container p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+/* Styling for the buttons */
+.home-container a button {
+  background-color: #fff;
+  color: #4facfe;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 25px;
+  cursor: pointer;
+  margin: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Hover effect */
+.home-container a button:hover {
+  background-color: #00f2fe;
+  color: white;
+  transform: scale(1.05);
+}

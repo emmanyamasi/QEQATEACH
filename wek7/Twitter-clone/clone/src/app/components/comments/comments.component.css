@@ -1,0 +1,11 @@
+.comments-container {
+    flex: 1;
+    order: -1; /* Moves comments to the left */
+    background: #F5F8FA;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #E1E8ED;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  

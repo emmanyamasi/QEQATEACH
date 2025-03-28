@@ -1,0 +1,9 @@
+<div class="mb-3">
+    <label for="userSelect" class="form-label">Select User:</label>
+    <select id="userSelect" class="form-select" [(ngModel)]="selectedUserId">
+      <option *ngFor="let user of users" [value]="user.id">
+        {{ user.username }}
+      </option>
+    </select>
+  </div>
+  

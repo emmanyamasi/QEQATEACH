@@ -1,0 +1,43 @@
+/* Ensure posts and comments align properly */
+.posts-container {
+    flex: 4; 
+    margin-left: auto; /* Push posts to the right */
+    max-width: 600px;
+  }
+  
+  /* Style individual post cards */
+  .card {
+    background: #ffffff;
+    border: 1px solid #E1E8ED;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  
+  .card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Button styling */
+  .btn-primary {
+    background-color: #007BFF;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Responsive: Stack posts and comments on small screens */
+  @media (max-width: 768px) {
+    .posts-container {
+      margin-left: 0; /* Remove right push on small screens */
+      width: 100%;
+    }
+  }
+  

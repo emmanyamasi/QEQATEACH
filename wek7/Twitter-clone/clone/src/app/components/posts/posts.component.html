@@ -1,0 +1,17 @@
+<div class="posts-comments-wrapper">
+    <div class="posts-container">
+        <div *ngFor="let post of posts" class="card my-2">
+            <div class="card-body">
+                <h5 class="card-title">{{post.title}}</h5>
+                <p class="card-text">{{post.body}}</p>
+                <button class="btn btn-primary" (click)="selectedPostId = post.id">
+                    View Comments
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="comments-container">
+        <app-comments *ngIf="selectedPostId" [postId]="selectedPostId"></app-comments>
+    </div>
+</div>

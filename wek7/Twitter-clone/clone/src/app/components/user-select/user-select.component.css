@@ -1,0 +1,51 @@
+/* Target the container */
+.mb-3 {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 10px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Target the label */
+.form-label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #14171A;
+}
+
+/* Style the select dropdown */
+.form-select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #E1E8ED;
+    border-radius: 8px;
+    background-color: #F5F8FA;
+    font-size: 14px;
+    color: #14171A;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    appearance: none; /* Removes default browser styles */
+}
+
+/* Remove default dropdown arrow in Internet Explorer */
+.form-select::-ms-expand {
+    display: none;
+}
+
+/* Add focus effect */
+.form-select:focus {
+    outline: none;
+    border-color: #1DA1F2;
+    box-shadow: 0 0 4px rgba(29, 161, 242, 0.5);
+}
+
+/* Ensure responsiveness */
+@media (max-width: 600px) {
+    .mb-3 {
+        padding: 5px;
+    }
+
+    .form-select {
+        width: 100%;
+    }
+}
