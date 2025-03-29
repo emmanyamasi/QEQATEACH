@@ -7,28 +7,43 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-login',
   imports: [FormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-
   user = { email: '', password: '' };
-  constructor(private authService: AuthService, private router: Router) { }
+
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
     this.authService.login(this.user).subscribe({
       next: (response) => {
         console.log('Login successful:', response);
-  
-        const roleId = response.user?.role_id; // Use role_id instead of role_name
-  
-        if (roleId === 1) {
-          this.router.navigate(['/admin']);
-        } else if (roleId === 2) {
-          this.router.navigate(['/librarian']);
-        } else if (roleId === 3) {
-          this.router.navigate(['/user-dashboard']);
+        
+        if (response.access_token) {
+          // ✅ Store tokens separately
+          localStorage.setItem('access_token', response.access_token.accessToken);
+          localStorage.setItem('refresh_token', response.access_token.refreshToken);
+
+          // ✅ Store user details
+          localStorage.setItem('user_id', response.user.id.toString());
+          localStorage.setItem('role_id', response.user.role_id.toString());
+
+          // ✅ Redirect based on role
+          switch (response.user.role_id) {
+            case 1:
+              this.router.navigate(['/admin']);
+              break;
+            case 2:
+              this.router.navigate(['/librarian']);
+              break;
+            case 3:
+              this.router.navigate(['/user-dashboard']);
+              break;
+            default:
+              this.router.navigate(['/']);
+          }
         } else {
-          this.router.navigate(['/']); // Redirect to home page or login
+          console.error('No access token received.');
         }
       },
       error: (error) => {
@@ -37,5 +52,4 @@ export class LoginComponent {
       }
     });
   }
-  
 }

@@ -7,7 +7,4 @@ export interface User {
     role_name:string;
 }
 
-export interface LoginResponse {
-    message: string;
-    user: User;
-}
+ 

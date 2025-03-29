@@ -37,21 +37,6 @@ export class AdminComponent implements OnInit {
   ngOnInit(): void {
     // ✅ Set user_id dynamically
     this.book.user_id = this.authService.getUserId();
-    
-    // Fetch books when the component loads
-    this.loadBooks();
-  }
-
-  loadBooks(): void {
-    this.bookService.getBooks().subscribe({
-      next: (books: Book[]) => {
-        this.books = books;
-      },
-      error: (error) => {
-        console.error('Error fetching books:', error);
-        alert('Failed to load books. Please try again.');
-      }
-    });
   }
 
   addBook(): void {
@@ -76,34 +61,6 @@ export class AdminComponent implements OnInit {
       }
     });
   }
-
-  // deleteBook(bookId: number): void {
-  //   if (!confirm('Are you sure you want to delete this book?')) return;
-
-  //   this.bookService.deleteBook(bookId).subscribe({
-  //     next: () => {
-  //       this.books = this.books.filter(book => book.id !== bookId);
-  //       alert('Book deleted successfully!');
-  //     },
-  //     error: (error) => {
-  //       console.error('Error deleting book:', error);
-  //       alert('Failed to delete book. Please try again.');
-  //     }
-  //   });
-  // }
-
-  // updateBook(book: Book): void {
-  //   this.bookService.updateBook(book).subscribe({
-  //     next: (updatedBook: Book) => {
-  //       this.books = this.books.map(b => (b.id === updatedBook.id ? updatedBook : b));
-  //       alert('Book updated successfully!');
-  //     },
-  //     error: (error) => {
-  //       console.error('Error updating book:', error);
-  //       alert('Failed to update book. Please try again.');
-  //     }
-  //   });
-  // }
 
   private resetForm(): void {
     this.book = {
