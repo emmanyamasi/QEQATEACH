@@ -37,7 +37,7 @@ export class LoginComponent {
               this.router.navigate(['/librarian']);
               break;
             case 3:
-              this.router.navigate(['/user-dashboard']);
+              this.router.navigate(['/borrower']);
               break;
             default:
               this.router.navigate(['/']);

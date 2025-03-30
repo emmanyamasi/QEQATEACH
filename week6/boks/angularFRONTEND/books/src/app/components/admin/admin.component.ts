@@ -31,13 +31,28 @@ export class AdminComponent implements OnInit {
   };
 
   books: Book[] = [];
-showAddBookForm: any;
+  showAddBookForm: boolean = false;
 
   constructor(private bookService: BookService, private authService: AuthService) {}
 
   ngOnInit(): void {
     // ✅ Set user_id dynamically
     this.book.user_id = this.authService.getUserId();
+    
+    // // ✅ Fetch books when the component loads
+    this.fetchBooks();
+  }
+
+  fetchBooks(): void {
+    this.bookService.getBooks().subscribe({
+      next: (books: Book[]) => {
+        this.books = books;
+      },
+      error: (error) => {
+        console.error('Error fetching books:', error);
+        alert('Failed to fetch books. Please try again.');
+      }
+    });
   }
 
   addBook(): void {
@@ -81,8 +96,8 @@ showAddBookForm: any;
       updated_at: undefined
     };
   }
-  toggleAddBookForm(): void { // Add this method
+
+  toggleAddBookForm(): void { 
     this.showAddBookForm = !this.showAddBookForm;
   }
-
 }

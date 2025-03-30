@@ -67,6 +67,20 @@ export const getBookById = asyncHandler(async (req: BookRequest, res: Response) 
     res.status(200).json(result.rows[0]);
 });
 
+
+
+// Get books posted by the logged-in librarian
+
+
+
+
+
+
+
+
+
+
+
 // // Update book (Only the librarian or Admin)
 export const updateBooK = asyncHandler(async (req: BookRequest, res: Response) => {
     const { id } = req.params;

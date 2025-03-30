@@ -4,6 +4,7 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { LibrarianComponent } from './components/librarian/librarian.component';
+import {  BorrowersComponent } from './components/borrower/borrower.component';
 
 
 export const routes: Routes = [
@@ -14,7 +15,8 @@ export const routes: Routes = [
 
     { path: 'login', component: LoginComponent },
     { path: 'admin', component: AdminComponent },
-    { path: 'librarian', component:  LibrarianComponent }
+    { path: 'librarian', component:  LibrarianComponent },
+    { path: 'borrower', component:  BorrowersComponent }
    
 ];
 

@@ -17,4 +17,8 @@ export class BookService {
   addBookL(book: Book): Observable<Book> {
     return this.http.post<Book>(`${this.apiUrl}/librarian`, book); // No manual headers needed
   }
+  getBooks(): Observable<Book[]> {
+    return this.http.get<Book[]>(`${this.apiUrl}`); // Assuming this endpoint returns all books
+  }
+
 }
