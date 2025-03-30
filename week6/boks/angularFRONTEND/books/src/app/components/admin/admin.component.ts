@@ -31,6 +31,7 @@ export class AdminComponent implements OnInit {
   };
 
   books: Book[] = [];
+showAddBookForm: any;
 
   constructor(private bookService: BookService, private authService: AuthService) {}
 
@@ -80,4 +81,8 @@ export class AdminComponent implements OnInit {
       updated_at: undefined
     };
   }
+  toggleAddBookForm(): void { // Add this method
+    this.showAddBookForm = !this.showAddBookForm;
+  }
+
 }

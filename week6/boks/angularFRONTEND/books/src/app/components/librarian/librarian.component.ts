@@ -1,11 +1,87 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Book } from '../../models/bookslist';
+import { BookService } from '../../services/book.service';
+import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-librarian',
-  imports: [],
+  imports: [FormsModule,CommonModule],
   templateUrl: './librarian.component.html',
   styleUrl: './librarian.component.css'
 })
-export class LibrarianComponent {
+export class LibrarianComponent implements OnInit {
+  book: Book = {
+    id: 0, 
+    user_id: 0, // Set dynamically in ngOnInit()
+    title: '',
+    author: '',
+    genre: '',
+    year: 0,
+    pages: 0,
+    publisher: '',
+    description: '',
+    price: 0,
+    total_copies: 0,
+    available_copies: 0,
+    created_at: undefined,
+    updated_at: undefined
+  };
+
+  books: Book[] = [];
+showAddBookForm: any;
+
+  constructor(private bookService: BookService, private authService: AuthService) {}
+
+  ngOnInit(): void {
+    // ✅ Set user_id dynamically
+    this.book.user_id = this.authService.getUserId();
+  }
+
+  addBookL(): void {
+    this.book.user_id = this.authService.getUserId(); // ✅ Ensure correct user_id
+
+    // Validate available copies
+    if (this.book.available_copies > this.book.total_copies) {
+      alert('Available copies cannot exceed total copies.');
+      return;
+    }
+
+    // Call API to add the book
+    this.bookService.addBookL(this.book).subscribe({
+      next: (newBook: Book) => {
+        this.books.push(newBook);
+        this.resetForm();
+        alert('Book added successfully!');
+      },
+      error: (error) => {
+        console.error('Error adding book:', error);
+        alert('Failed to add book. Please try again.');
+      }
+    });
+  }
+
+  private resetForm(): void {
+    this.book = {
+      id: 0,
+      user_id: this.authService.getUserId(), // ✅ Reset with correct user_id
+      title: '',
+      author: '',
+      genre: '',
+      year: 0,
+      pages: 0,
+      publisher: '',
+      description: '',
+      price: 0,
+      total_copies: 0,
+      available_copies: 0,
+      created_at: undefined,
+      updated_at: undefined
+    };
+  }
+  toggleAddBookForm(): void { // Add this method
+    this.showAddBookForm = !this.showAddBookForm;
+  }
 
 }
+

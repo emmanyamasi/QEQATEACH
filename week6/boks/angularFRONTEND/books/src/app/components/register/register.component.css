@@ -1,53 +1,52 @@
-/* src/app/components/register/register.component.css */
+/* register.component.css */
+
 .container {
-    width: 90%;
-    max-width: 500px;
-    background: #243b55;
+    font-family: sans-serif;
+    margin: 20px auto; /* Center the container */
     padding: 20px;
+    background-color: #f7f7f7; /* Light background, similar to the main app */
     border-radius: 8px;
-    margin: 20px auto;
-}
-
-h2 {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 400px; /* Limit the width for better readability */
+  }
+  
+  .container h2 {
+    color: #333; /* Dark gray for headings */
     text-align: center;
-    color: #f8f8f8;
-    font-family: "Bebas Neue", sans-serif;
-    font-size: 2rem;
     margin-bottom: 20px;
-}
-
-.form-group {
+  }
+  
+  .container .form-group {
     margin-bottom: 15px;
-}
-
-.form-group label {
+  }
+  
+  .container label {
     display: block;
-    color: #fff;
     margin-bottom: 5px;
-}
-
-.form-group input,
-.form-group select {
+    color: #555; /* Slightly lighter gray for labels */
+  }
+  
+  .container input[type="text"],
+  .container input[type="email"],
+  .container input[type="password"],
+  .container select {
+    width: calc(100% - 18px); /* Adjust for padding and border */
+    padding: 8px;
+    border: 1px solid #ddd; /* Light border for inputs */
+    border-radius: 4px;
+  }
+  
+  .container button {
     width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #1a2e44;
-    color: #fff;
+    padding: 10px 15px;
+    background-color: #008080; /* Teal button color, matching the main app */
+    color: rgb(187, 173, 173);
     border: none;
-    font-family: "Orbitron", sans-serif;
-}
-
-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
-    font-family: "Orbitron", sans-serif;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
+    transition: background-color 0.3s ease;
+  }
+  
+  .container button:hover {
+    background-color: #006666; /* Darker teal on hover */
+  }

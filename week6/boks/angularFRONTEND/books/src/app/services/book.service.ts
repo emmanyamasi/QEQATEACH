@@ -14,4 +14,7 @@ export class BookService {
   addBook(book: Book): Observable<Book> {
     return this.http.post<Book>(`${this.apiUrl}/admin`, book); // No manual headers needed
   }
+  addBookL(book: Book): Observable<Book> {
+    return this.http.post<Book>(`${this.apiUrl}/librarian`, book); // No manual headers needed
+  }
 }

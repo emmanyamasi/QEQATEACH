@@ -13,4 +13,8 @@ export class HomeComponent {
   goToRegister() {
     this.router.navigate(['/register']);
   }
+
+  goToLogin(){
+    this.router.navigate(['/login']);
+  }
 }

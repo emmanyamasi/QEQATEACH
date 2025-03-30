@@ -29,7 +29,7 @@ router.get("/:id", getBookById);
    🔐 Organizer Routes (Protected)
    ============================== */
 // Only authenticated organizers can create books
-router.post("/", protect, organizerGuard, createBook);
+router.post("/librarian", protect, organizerGuard, createBook);
 
 // Only the LIBRARIAN (organizer) can update their own event
 router.put("/:id", protect, organizerGuard, bookOwnerGuard, updateBooK);
