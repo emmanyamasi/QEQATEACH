@@ -18,7 +18,7 @@ export const createBook = asyncHandler(async (req: UserRequest, res: Response) =
         if (!req.user) {
             res.status(401).json({ message: "Not authorized" });
             return;
-        } 
+        }
 
         const user_id = req.user.id; // User ID from token
         const { title, author, genre, year, pages, publisher, description, price, total_copies, available_copies } = req.body;
@@ -69,17 +69,52 @@ export const getBookById = asyncHandler(async (req: BookRequest, res: Response) 
 
 
 
+
+
+
 // Get books posted by the logged-in librarian
-
-
-
-
-
-
-
-
-
-
+export const getLibrarianBooks = asyncHandler(async (req: BookRequest, res: Response) => {
+    try {
+        console.log("User object in getLibrarianBooks:", req.user);
+        
+        if (!req.user) {
+            res.status(401).json({ message: "not authorized" });
+            return;
+        }
+        
+        // Checking role_name
+        console.log("Role name check:", req.user.role_name);
+        if (req.user.role_name !== "Librarian") {
+            res.status(401).json({ message: "access denied only librarians can access their books" });
+            return;
+        }
+        
+        // No need to parse - the ID is already a number in your updated interface
+        const userId = req.user.id;
+        console.log("User ID for query:", userId, "Type:", typeof userId);
+        
+        // Still good to have this check as a safety measure
+        if (typeof userId !== 'number' || isNaN(userId)) {
+            console.error("Invalid user ID - not a number:", req.user.id);
+            return res.status(400).json({ message: "Invalid user ID" });
+        }
+        
+        console.log("Executing query with userId:", userId);
+        
+        const bookResult = await pool.query(
+            "SELECT * FROM books WHERE user_id = $1",
+            [userId]
+        );
+        
+        res.status(200).json({
+            message: "Books retrieved successfully",
+            books: bookResult.rows,
+        });
+    } catch (error) {
+        console.error("Error fetching librarian books:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
 
 // // Update book (Only the librarian or Admin)
 export const updateBooK = asyncHandler(async (req: BookRequest, res: Response) => {
@@ -104,7 +139,7 @@ export const updateBooK = asyncHandler(async (req: BookRequest, res: Response) =
         return res.status(403).json({ message: "Not authorized to update this book" });
     }
 
-    
+
 
     // Update book
     const result = await pool.query(

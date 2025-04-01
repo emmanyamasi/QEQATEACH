@@ -1,6 +1,6 @@
 import express from 'express'
 
-import { createBook, deleteBook, getBookById, getBooks, updateBooK } from '../controllers/booksController'
+import { createBook, deleteBook, getBookById, getBooks, getLibrarianBooks, updateBooK } from '../controllers/booksController'
 import { protect } from '../middlewares/auth/protect'
 import { adminGuard, organizerGuard } from '../middlewares/auth/roleMiddleWare'
 import { bookOwnerGuard } from '../middlewares/books/booksOwnerGuard'
@@ -20,8 +20,14 @@ const router = express.Router()
 // View all books
 router.get("/", getBooks);
 
+
+
+router.get("/librarian", protect, organizerGuard, getLibrarianBooks);
+
 // View a single event by ID
 router.get("/:id", getBookById);
+
+
 
 
 

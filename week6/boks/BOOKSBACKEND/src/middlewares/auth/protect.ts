@@ -32,24 +32,42 @@ export const protect = asyncHandler(async (req: UserRequest, res: Response, next
         console.log("Token before verification:", token);
 
         // 4️⃣ Verify Token
-        const decoded = jwt.verify(token, process.env.JWT_SECRET) as { userId: string | number; roleId: number };
+        const decoded = jwt.verify(token, process.env.JWT_SECRET) as { userId: number; roleId: number };
 
         console.log("Decoded Token:", decoded);
+        console.log("🛑 Extracted userId before conversion:", decoded.userId, "Type:", typeof decoded.userId)
+
 
         // 5️⃣ Convert userId to Number Only If Needed
-        const userId = typeof decoded.userId === "string" ? parseInt(decoded.userId, 10) : decoded.userId;
-        if (isNaN(userId)) {
-            return res.status(400).json({ message: "Invalid ID in token" });
-        }
+        // const userId = typeof decoded.userId === "string" ? parseInt(decoded.userId, 10) : decoded.userId;
+        // console.log("🔢 Converted userId:", userId, "Type:", typeof userId);
+        // if (isNaN(userId)) {
+        //     return res.status(400).json({ message: "Invalid ID in token" });
+        // }
+
+
+
+
+        const userId = decoded.userId;
+        if (typeof userId !== "number" || isNaN(userId)) {
+            throw new Error("Invalid user_id in token");
+        }
 
         // 6️⃣ Fetch User from Database
         const userQuery = await pool.query(
-            `SELECT users.id, users.name, users.email, users.role_id, user_roles.role_name 
+            `SELECT 
+             users.id as id, 
+              users.name as name, 
+              users.email as email, 
+              users.role_id as role_id, 
+              user_roles.role_name as role_name
              FROM users 
              JOIN user_roles ON users.role_id = user_roles.id 
              WHERE users.id = $1`,
             [userId]
         );
+
+        console.log("📝 User Query Result:", userQuery.rows);
 
         if (userQuery.rows.length === 0) {
             return res.status(401).json({ message: "User not found" });
@@ -57,6 +75,7 @@ export const protect = asyncHandler(async (req: UserRequest, res: Response, next
 
         // 7️⃣ Attach User to Request and Proceed
         req.user = userQuery.rows[0];
+        console.log("👤 Final req.user:", req.user);
         next();
     } catch (error) {
         console.error("JWT Error:", error);
