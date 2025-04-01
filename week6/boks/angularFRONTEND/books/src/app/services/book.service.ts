@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Book } from '../models/bookslist';
 
 @Injectable({
@@ -19,6 +19,16 @@ export class BookService {
   }
   getBooks(): Observable<Book[]> {
     return this.http.get<Book[]>(`${this.apiUrl}`); // Assuming this endpoint returns all books
+
   }
+  getLibrarianBooks(): Observable<Book[]> {
+    return this.http.get<{ message: string; books: Book[] }>(`${this.apiUrl}/librarian`).pipe(
+        map(response => response.books) // ✅ Extract only the books array
+    );
+}
+
+
+
+  
 
 }

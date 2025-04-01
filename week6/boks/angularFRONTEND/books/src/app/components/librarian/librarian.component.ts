@@ -36,6 +36,7 @@ showAddBookForm: any;
   ngOnInit(): void {
     // ✅ Set user_id dynamically
     this.book.user_id = this.authService.getUserId();
+    this.loadLibrarianBooks();
   }
 
   addBookL(): void {
@@ -60,6 +61,17 @@ showAddBookForm: any;
       }
     });
   }
+
+  loadLibrarianBooks(): void {
+    this.bookService.getLibrarianBooks().subscribe({
+        next: (books: Book[]) => {
+            this.books = books;
+        },
+        error: (error) => {
+            console.error('Error fetching books:', error);
+        }
+    });
+}
 
   private resetForm(): void {
     this.book = {
