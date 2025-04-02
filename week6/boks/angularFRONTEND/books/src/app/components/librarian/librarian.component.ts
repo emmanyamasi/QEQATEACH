@@ -73,6 +73,23 @@ showAddBookForm: any;
     });
 }
 
+
+deleteBookL(bookId: number): void {
+  console.log("Deleting book with ID:", bookId); // Debugging step
+  if (confirm("Are you sure you want to delete this book?")) {
+    this.bookService.deleteBookL(bookId).subscribe({
+      next: () => {
+        this.books = this.books.filter(book => book.id !== bookId);
+        alert("Book deleted successfully!");
+      },
+      error: (error) => {
+        console.error("Error deleting book:", error);
+        alert("Failed to delete book. Please try again.");
+      }
+    });
+  }
+}
+
   private resetForm(): void {
     this.book = {
       id: 0,

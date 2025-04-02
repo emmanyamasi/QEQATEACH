@@ -51,6 +51,7 @@
           <p><strong>Total Copies:</strong> {{ book.total_copies }}</p>
           <p><strong>Available Copies:</strong> {{ book.available_copies }}</p>
           <p><strong>Description:</strong> {{ book.description }}</p>
+          <button (click)="deleteBookL(book.id)" class="delete-btn">Delete</button>
       </div>
   </div>
   

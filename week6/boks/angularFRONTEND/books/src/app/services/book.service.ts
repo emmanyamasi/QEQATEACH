@@ -9,7 +9,7 @@ import { Book } from '../models/bookslist';
 export class BookService {
   private apiUrl = 'http://localhost:3000/api/v1/books';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   addBook(book: Book): Observable<Book> {
     return this.http.post<Book>(`${this.apiUrl}/admin`, book); // No manual headers needed
@@ -23,12 +23,30 @@ export class BookService {
   }
   getLibrarianBooks(): Observable<Book[]> {
     return this.http.get<{ message: string; books: Book[] }>(`${this.apiUrl}/librarian`).pipe(
-        map(response => response.books) // ✅ Extract only the books array
+      map(response => response.books) // ✅ Extract only the books array
     );
-}
+  }
 
+  deleteBook(bookId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${bookId}/admin`); // DELETE route for a specific book
+  }
 
+  deleteBookL(bookId:number):Observable<void>{
+    return this.http.delete<void>(`${this.apiUrl}/${bookId}`)
+  }
 
+  updateBookAsAdmin(bookId:number,updatedBook:Partial<Book>):Observable<Book>{
+    return this.http.put<Book>(`${this.apiUrl}/{bookId}/admin`,updatedBook)
+  }
   
+  }
 
-}
+
+
+
+
+
+
+
+
+

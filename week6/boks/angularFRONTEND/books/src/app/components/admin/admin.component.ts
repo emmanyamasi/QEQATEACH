@@ -13,33 +13,21 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-  book: Book = {
-    id: 0, 
-    user_id: 0, // Set dynamically in ngOnInit()
-    title: '',
-    author: '',
-    genre: '',
-    year: 0,
-    pages: 0,
-    publisher: '',
-    description: '',
-    price: 0,
-    total_copies: 0,
-    available_copies: 0,
-    created_at: undefined,
-    updated_at: undefined
-  };
-
+  book: Book = {} as Book;  // Initialize with an empty object first
   books: Book[] = [];
-  showAddBookForm: boolean = false;
 
-  constructor(private bookService: BookService, private authService: AuthService) {}
+  showAddBookForm: boolean = false;
+  selectedBook: Book | null = null;
+  showUpdateForm: boolean = false;
+
+  constructor(private bookService: BookService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    // ✅ Set user_id dynamically
-    this.book.user_id = this.authService.getUserId();
+    // ✅ Set the user_id dynamically once authService is ready
+    const userId = this.authService.getUserId();
+    this.book = this.resetBook(userId); // Pass userId to resetBook()
     
-    // // ✅ Fetch books when the component loads
+    // Fetch books when the component loads
     this.fetchBooks();
   }
 
@@ -56,7 +44,7 @@ export class AdminComponent implements OnInit {
   }
 
   addBook(): void {
-    this.book.user_id = this.authService.getUserId(); // ✅ Ensure correct user_id
+    this.book.user_id = this.authService.getUserId(); // Ensure correct user_id for new book
 
     // Validate available copies
     if (this.book.available_copies > this.book.total_copies) {
@@ -68,7 +56,7 @@ export class AdminComponent implements OnInit {
     this.bookService.addBook(this.book).subscribe({
       next: (newBook: Book) => {
         this.books.push(newBook);
-        this.resetForm();
+        this.book = this.resetBook(this.authService.getUserId());  // Reset form after adding the book
         alert('Book added successfully!');
       },
       error: (error) => {
@@ -78,10 +66,45 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  private resetForm(): void {
-    this.book = {
+  deleteBook(bookId: number): void {
+    console.log("Deleting book with ID:", bookId);  // Debugging step
+    if (confirm("Are you sure you want to delete this book?")) {
+      this.bookService.deleteBook(bookId).subscribe({
+        next: () => {
+          this.books = this.books.filter(book => book.id !== bookId);
+          alert("Book deleted successfully!");
+        },
+        error: (error) => {
+          console.error("Error deleting book:", error);
+          alert("Failed to delete book. Please try again.");
+        }
+      });
+    }
+  }
+
+  editBook(book: Book): void {
+    this.selectedBook = { ...book };
+    this.showUpdateForm = true;
+  }
+
+  updateBook(): void {
+    if (!this.selectedBook) return;
+
+    this.bookService.updateBookAsAdmin(this.selectedBook.id, this.selectedBook).subscribe({
+      next: (updatedBook) => {
+        this.books = this.books.map(b => b.id === updatedBook.id ? updatedBook : b);
+        this.showUpdateForm = false;
+        this.selectedBook = null;
+        alert('Book updated successfully!');
+      },
+      error: () => alert('Failed to update book.')
+    });
+  }
+
+  private resetBook(userId: number): Book {
+    return {
       id: 0,
-      user_id: this.authService.getUserId(), // ✅ Reset with correct user_id
+      user_id: userId,  // Dynamically assign user_id here
       title: '',
       author: '',
       genre: '',
@@ -97,7 +120,7 @@ export class AdminComponent implements OnInit {
     };
   }
 
-  toggleAddBookForm(): void { 
+  toggleAddBookForm(): void {
     this.showAddBookForm = !this.showAddBookForm;
   }
 }
