@@ -1,0 +1,17 @@
+<h2 class="heading">Available Books</h2>
+
+<div class="books-container">
+  <div class="book-card" *ngFor="let book of books">
+    <h3>{{ book.title }}</h3>
+    <p><strong>Author:</strong> {{ book.author }}</p>
+    <p><strong>Genre:</strong> {{ book.genre }}</p>
+    <p><strong>Year:</strong> {{ book.year }}</p>
+    <p><strong>Pages:</strong> {{ book.pages }}</p>
+    <p><strong>Publisher:</strong> {{ book.publisher }}</p>
+    <p class="description">{{ book.description }}</p>
+    <p><strong>Available Copies:</strong> {{ book.available_copies }}</p>
+
+    <!-- Borrow Button -->
+    <!-- <button class="borrow-btn" (click)="borrowBook(book)">Borrow</button> -->
+  </div>
+</div>
