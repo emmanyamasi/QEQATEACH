@@ -6,6 +6,7 @@ import { AdminComponent } from './components/admin/admin.component';
 
 import { JobSeekerComponent } from './components/job-seeker/job-seeker.component';
 import { EmployerComponent } from './components/employer/employer.component';
+import { JobseekerProfileComponent } from './components/jobseeker-profile/jobseeker-profile.component';
 
 
 export const routes: Routes = [
@@ -17,7 +18,10 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'admin', component: AdminComponent },
     { path: 'employer', component: EmployerComponent },
-    { path: 'jobseeker', component: JobSeekerComponent }
+    { path: 'jobseeker', component: JobSeekerComponent },
+    { path: 'jobseeker-profile', component: JobseekerProfileComponent },
+    
+
 
     
    
