@@ -1,94 +1,83 @@
-.admin-dashboard {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* admin-navbar.component.css */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+ 
+  
+  padding: 0 2rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  height: 60px;
+  width: 100%;
 }
 
-h1, h2 {
+.logo-container {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.logo {
+  height: 40px;
+}
+
+.welcome-text {
+  flex: 1;
   text-align: center;
-  color: #333;
+  font-size: 1.2rem;
+  font-weight: 500;
 }
 
-form {
+.profile-container {
+  flex: 1;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  justify-content: flex-end;
+  position: relative;
 }
 
-label {
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-input, textarea {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
-textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-
-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
+.profile-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   cursor: pointer;
-  font-size: 16px;
+  border: 2px solid #fff;
 }
 
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+.profile-details {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background-color: white;
+  color: #333;
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  z-index: 100;
+  min-width: 200px;
 }
 
-button:hover:not(:disabled) {
-  background-color: #0056b3;
+.profile-details h3 {
+  margin-top: 0;
+  color: #2c3e50;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
 }
 
-/* 📚 Book List - Flexbox Layout */
-.book-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  justify-content: center;
-  margin-top: 20px;
+.profile-details p {
+  margin: 0.5rem 0;
 }
 
-/* 📖 Individual Book Cards */
-.book-card {
-  background: white;
-  padding: 15px;
-  width: 250px; /* Adjust width as needed */
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+.error {
+  color: #e74c3c;
+  font-weight: bold;
 }
 
-.book-card h3 {
-  margin: 0;
-  font-size: 18px;
-  color: #007bff;
-}
-
-.book-card p {
-  margin: 5px 0;
-  font-size: 14px;
-  color: #555;
-}
-
-/* Hover effect */
-.book-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+.error-message {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background-color: #fdf0ef;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }

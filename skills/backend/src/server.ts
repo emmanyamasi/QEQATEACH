@@ -12,10 +12,7 @@ import cors from "cors"
 import authRoutes from './routes/authRoutes'
 import usersRoute from './routes/usersRoute'
 
-import booksRoute from './routes/booksRoute'
-import bookCopiesRoutes from './routes/bookCopiesRoutes'
-import borrowerRoute from './routes/borrowerRoute'
-
+import profileRoutes from './routes/profileRoutes'
 
 
 
@@ -47,9 +44,8 @@ app.use(cors({
 //4. routes 
 app.use("/api/v1/auth", authRoutes)
 app.use("/api/v1/users", usersRoute)
-app.use("/api/v1/books", booksRoute)
-app.use("/api/v1/bookcopies", bookCopiesRoutes)
-app.use("/api/v1/borrowers", borrowerRoute)
+app.use("/api/v1/profile",profileRoutes)
+
 
 //5. middlewares for error handlers 
 

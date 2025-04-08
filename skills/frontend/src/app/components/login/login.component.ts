@@ -34,10 +34,10 @@ export class LoginComponent {
               this.router.navigate(['/admin']);
               break;
             case 2:
-              this.router.navigate(['/librarian']);
+              this.router.navigate(['/employer']);
               break;
             case 3:
-              this.router.navigate(['/borrower']);
+              this.router.navigate(['/jobseeker']);
               break;
             default:
               this.router.navigate(['/']);
