@@ -10,7 +10,7 @@ import { ProfileResponse } from '../models/profile';
 })
 export class ProfilesService {
 
-  private apiUrl = 'http://localhost:3000/api/v1/profile';
+  private apiUrl = 'http://localhost:3000/api/v1/profile';  // Your base API URL
 
   constructor(private http: HttpClient) { }
 
@@ -24,6 +24,22 @@ export class ProfilesService {
   updateUserProfile(data: { name: string; email: string }): Observable<ProfileResponse> {
     const headers = this.getAuthHeaders();
     return this.http.put<ProfileResponse>(`${this.apiUrl}`, data, { headers });
+  }
+
+  // Fetch skill categories
+  getSkillCategories(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:3000/api/v1/skill-categories'); // Adjust endpoint
+  }
+
+  // Fetch all skills
+  getAllSkills(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:3000/api/v1/skills'); // Adjust endpoint
+  }
+
+  // Save jobseeker profile
+  saveJobSeekerProfile(profileData: any): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.post<any>(`${this.apiUrl}/jobseeker-profile`, profileData, { headers });
   }
 
   // Utility: Get token and set headers

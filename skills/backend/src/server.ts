@@ -14,6 +14,10 @@ import usersRoute from './routes/usersRoute'
 
 import profileRoutes from './routes/profileRoutes'
 
+import jobSeekerProfileRoutes from './routes/jobseekerProfileRoutes'; // Add this line
+import skillCategoriesRoutes from './routes/skillCategoriesRoutes'
+import skillsRoutes from './routes/skillsRoutes'
+
 
 
 
@@ -45,7 +49,11 @@ app.use(cors({
 app.use("/api/v1/auth", authRoutes)
 app.use("/api/v1/users", usersRoute)
 app.use("/api/v1/profile",profileRoutes)
+app.use("/api/v1/", jobSeekerProfileRoutes);
 
+
+app.use("/api/v1", skillCategoriesRoutes); 
+app.use("/api/v1", skillsRoutes); 
 
 //5. middlewares for error handlers 
 
